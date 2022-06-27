@@ -30,7 +30,7 @@ def getCountry(filename):
     return df
 
 def renamedf1(df):
-    # print(df.columns)
+   
     
     df=df.rename(columns={'Country' : 'country_name', 'Code' : 'country_code', 'Year':'year','ContinentCode' : 'continent_code',
                           'Economic growth: the rate of change of real GDP' : 'gdp_growth_rate',
@@ -106,7 +106,14 @@ def renamedf1(df):
     return df
     
     
-
+def getNaAnalysis(df):
+    lst=[]
+    for col in df.columns:
+        n = df[col].isna().sum()
+        if (n/len(df) >= 0.3):
+            lst.append({col, n/len(df)})
+    print(lst)
+    
 def doEDA(df):
     
     df_country = getResult(" SELECT * from [country]")
@@ -125,29 +132,34 @@ def doEDA(df):
         df.at[index, 'country_id'] = dic[row['country_code']] 
 #drop column names
     
-    print(df['country_id'])
+    # print(df['country_id'])
     columns = df.columns[3:]
    
     df = df[columns]
     
-    #na values
-    lst=[]
-    for col in df.columns:
-        n = df[col].isna().sum()
-        lst.append({col, n/len(df)})
-    print(lst)
+    # na values
+    # getNaAnalysis(df)
+    
     
     
     return df
         
     
+def combineData(df1,df2,df3,dfEnv,dfGov,dfSoc):
+    new_df = pd.merge(df1, df2,  how='inner', left_on=['country_id','year'], right_on = ['country_id','year'])
+    new_df = pd.merge(new_df, df3,  how='inner', left_on=['country_id','year'], right_on = ['country_id','year'])
+    new_df = pd.merge(new_df, dfEnv,  how='inner', left_on=['country_id','year'], right_on = ['country_id','year'])
+    new_df = pd.merge(new_df, dfGov,  how='inner', left_on=['country_id','year'], right_on = ['country_id','year'])
+    new_df = pd.merge(new_df, dfSoc,  how='inner', left_on=['country_id','year'], right_on = ['country_id','year'])
 
+    return new_df
     
 def getCleanData(filename):
     
     df = getData(filename)
     df = renamedf1(df)
     df = doEDA(df)
+
     
     return df
 
