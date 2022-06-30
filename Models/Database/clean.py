@@ -7,6 +7,7 @@ Created on Fri Jun 17 17:05:31 2022
 """
 
 import pandas as pd
+import numpy as np
 from Models.Common.sqlconnection import *
 
 def getData(filename):
@@ -31,7 +32,7 @@ def getCountry(filename):
 
 def renamedf1(df):
    
-    
+    print(df.columns)
     df=df.rename(columns={'Country' : 'country_name', 'Code' : 'country_code', 'Year':'year','ContinentCode' : 'continent_code',
                           'Economic growth: the rate of change of real GDP' : 'gdp_growth_rate',
                           'Gross Domestic Product billions of U.S. dollars' : 'gdp', #in billions USD
@@ -94,8 +95,12 @@ def renamedf1(df):
                           'Unemployment rate': 'unemplyment_rate',
                           'Youth unemployment ages 15-24' : 'youth_unemployment',
                           'Labor freedom index (0-100)' : 'labor_freedom_index',
-                          'Human rights and rule of law index 0 (high) - 10 (low)' : 'rights_and_law_index'
-                          
+                          'Human rights and rule of law index 0 (high) - 10 (low)' : 'rights_and_law_index',
+                          'Month' : 'month',
+                          'Long-term government bond yield' : 'yield',
+                          'Agency' : 'agency',
+                          'Rating' : 'rating',
+                          'Outlook' : 'outlook'
                           })
     
     if 'remittance' in df.columns:
@@ -107,12 +112,18 @@ def renamedf1(df):
     
     
 def getNaAnalysis(df):
-    lst=[]
-    for col in df.columns:
-        n = df[col].isna().sum()
-        if (n/len(df) >= 0.3):
-            lst.append({col, n/len(df)})
-    print(lst)
+    # lst=[]
+    # for col in df.columns:
+    #     n = df[col].isna().sum()
+    #     if (n/len(df) >= 0.3):
+    #         lst.append({col, n/len(df)})
+    # print(lst)
+    for each in df:
+        
+        df.loc[['Index']].isna().sum().sum()
+    
+    
+    
     
 def doEDA(df):
     
@@ -133,9 +144,10 @@ def doEDA(df):
 #drop column names
     
     # print(df['country_id'])
+    
     columns = df.columns[3:]
    
-    df = df[columns]
+    
     
     # na values
     # getNaAnalysis(df)
@@ -145,26 +157,122 @@ def doEDA(df):
     return df
         
     
-def combineData(df1,df2,df3,dfEnv,dfGov,dfSoc):
-    new_df = pd.merge(df1, df2,  how='inner', left_on=['country_id','year'], right_on = ['country_id','year'])
-    new_df = pd.merge(new_df, df3,  how='inner', left_on=['country_id','year'], right_on = ['country_id','year'])
-    new_df = pd.merge(new_df, dfEnv,  how='inner', left_on=['country_id','year'], right_on = ['country_id','year'])
-    new_df = pd.merge(new_df, dfGov,  how='inner', left_on=['country_id','year'], right_on = ['country_id','year'])
-    new_df = pd.merge(new_df, dfSoc,  how='inner', left_on=['country_id','year'], right_on = ['country_id','year'])
+# def combineData(df1,df2,df3,dfEnv,dfGov,dfSoc):
+#     new_df = pd.merge(df1, df2,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
+#     new_df = pd.merge(new_df, df3,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
+#     new_df = pd.merge(new_df, dfEnv,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
+#     new_df = pd.merge(new_df, dfGov,  how='full', left_on=['country_id','year'], right_on = ['country_id','year'])
+#     new_df = pd.merge(new_df, dfSoc,  how='inner', left_on=['country_id','year'], right_on = ['country_id','year'])
 
-    return new_df
+#     return new_df
+
+def compressData(df):
+    dfRatingFinal = pd.DataFrame(columns = ['year','agency','rating','country_id','s&p','moodys','fitch'])
     
+    # columns = df.columns[1:]
+    # df = df[columns]
+    if "continent_code" in df:
+        df.drop("continent_code", axis=1, inplace=True)
+    if "country_code" in df:
+        df.drop("country_code", axis=1, inplace=True)
+    if "country_name" in df:
+        df.drop("country_name", axis=1, inplace=True)
+    if "outlook" in df:
+        df.drop("outlook", axis=1, inplace=True)
+    
+    
+    if "month" in df:
+        df.drop(df.index[df['month'] != 12], inplace=True)
+        df.drop("month", axis=1, inplace=True) 
+    if "agency" in df:
+        df["s&p"] = ""
+        df["moodys"] = ""
+        df["fitch"] = ""
+        
+        for index, row in df.iterrows():
+            
+            if row['agency'] == 'Fitch':
+                df.at[index,'fitch'] = row['rating']
+        
+            if row['agency'] == 'S&P':
+                df.at[index,'s&p'] = row['rating']
+            if row['agency'] == "Moody's":
+                df.at[index,'moodys'] = row['rating']
+        
+        # df.drop("outlook", axis=1, inplace=True)
+        
+        for index, row in df.iterrows():
+            
+            
+            # if 7 in list(dfRatingFinal['country_id'].values) and 2001 in list(dfRatingFinal['year'].values):
+            #     print("sciosdjuosduiosdiosdhjadsihioj")
+            df_temp = dfRatingFinal.loc[(dfRatingFinal['country_id'] == row['country_id']) & (dfRatingFinal['year'] == row['year'])]
+            # print(df_temp.shape)
+            
+            if df_temp.shape[0] > 0:
+                # print("helolooo")
+                # print(df_temp)
+                ind = df_temp.index[0]
+                if row['s&p'] != "":
+                    dfRatingFinal.at[ind,'s&p'] = row['s&p']
+                if row['moodys'] != "":
+                    dfRatingFinal.at[ind,'moodys'] = row['moodys']
+                if row['fitch'] != "":
+                    dfRatingFinal.at[ind,'fitch'] = row['fitch']
+            else:
+                dfRatingFinal = dfRatingFinal.append(row)
+                # print("achaaa")
+                
+        return dfRatingFinal
+    else:
+        return df
+            
+    
+    
+    
+def compressData1(df):
+    
+    columns = df.columns[3:]
+   
+    df = df[columns]
+    
+    return df
+
+def fillData(df):
+    if "agency" in df:
+        df.drop("agency", axis=1, inplace=True)
+    if "rating" in df:
+        df.drop("rating", axis=1, inplace=True)
+   
+    mux = pd.MultiIndex.from_product([
+        df.country_id.unique(),
+        range(df.year.min(), df.year.max() + 1)
+    ], names=['country_id', 'year'])
+
+    df = df.set_index(['country_id', 'year']).reindex(mux).reset_index()
+    df.fillna(method = 'ffill', inplace=True)
+    df.fillna(method='bfill',inplace=True)
+    df.replace(r'^\s*$', np.nan, regex=True,inplace= True)
+    df.fillna(method='bfill',inplace=True)
+    df.fillna(method = 'ffill', inplace=True)
+    return df 
+        
 def getCleanData(filename):
     
     df = getData(filename)
     df = renamedf1(df)
     df = doEDA(df)
-
+    if "BondYield.csv" in filename or "CreditRating.csv" in filename:
+        df = compressData(df)
+        
+    else:
+        df = compressData1(df)
     
+    if "CreditRating.csv" in filename:
+        df = fillData(df)
     return df
 
-    
-    
+
     
  
     
