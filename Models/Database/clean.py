@@ -112,15 +112,30 @@ def renamedf1(df):
     
     
 def getNaAnalysis(df):
-    # lst=[]
-    # for col in df.columns:
-    #     n = df[col].isna().sum()
-    #     if (n/len(df) >= 0.3):
-    #         lst.append({col, n/len(df)})
-    # print(lst)
-    for each in df:
+    lst=[]
+    country = df['year'].unique()
+    for c in country:
+        df_fil = df.loc[df['year'] == c]
+        NullCount = []
+        for col in df_fil.columns:
+            n = df_fil[col].isna().sum()
+            NullCount.append(n/len(df_fil))
         
-        df.loc[['Index']].isna().sum().sum()
+        missing = sum (NullCount)/len(NullCount)
+        if(missing > 0.5):
+            lst.append({c, missing})
+    print(lst)
+    
+def getColNaAnalysis(df_fil):
+    lst=[]
+    for col in df_fil.columns:
+        n = df_fil[col].isna().sum()
+        
+        missing = n/len(df_fil)
+        if(missing > 0.3 ):
+            lst.append({col, missing})
+    print(lst)
+  
     
     
     
@@ -157,14 +172,16 @@ def doEDA(df):
     return df
         
     
-# def combineData(df1,df2,df3,dfEnv,dfGov,dfSoc):
-#     new_df = pd.merge(df1, df2,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
-#     new_df = pd.merge(new_df, df3,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
-#     new_df = pd.merge(new_df, dfEnv,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
-#     new_df = pd.merge(new_df, dfGov,  how='full', left_on=['country_id','year'], right_on = ['country_id','year'])
-#     new_df = pd.merge(new_df, dfSoc,  how='inner', left_on=['country_id','year'], right_on = ['country_id','year'])
+def combineData(df1, df2, df3, dfEnv, dfGov, dfRating, dfYield):
+    new_df = pd.merge(df1, df2,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
+    new_df = pd.merge(new_df, df3,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
+    new_df = pd.merge(new_df, dfEnv,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
+    new_df = pd.merge(new_df, dfGov,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
+    # new_df = pd.merge(new_df, dfSoc,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
+    new_df = pd.merge(new_df, dfRating,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
+    new_df = pd.merge(new_df, dfYield,  how='left', left_on=['country_id','year'], right_on = ['country_id','year'])
 
-#     return new_df
+    return new_df
 
 def compressData(df):
     dfRatingFinal = pd.DataFrame(columns = ['year','agency','rating','country_id','s&p','moodys','fitch'])

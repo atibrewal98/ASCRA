@@ -45,3 +45,6 @@ def getResult(query):
     
     df = pd.read_sql_query(query, getConnection())
     return df
+
+
+
