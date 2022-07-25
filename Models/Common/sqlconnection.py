@@ -12,7 +12,7 @@ from Models.Common import config as config
 import pandas as pd
 
 def getConnection():
-    sql = config.SQL_CONFIG
+    sql = config.SQL_CONFIG_2
     
     connection = pypyodbc.connect("Driver={" + sql["Driver"]+"};Port=" + str(sql['Port']) + ";Server=" + sql["Server"] + ";Database=" + sql["Database"] + ";uid=" + sql["UID"] + ";pwd=" + sql["Password"], autocommit=True)
 
@@ -28,7 +28,7 @@ def insertData(df, table_name, index = False ):
 
 
 def getSQLAlchemyConnection():
-    params = config.SQL_CONFIG
+    params = config.SQL_CONFIG_2
 
     p = 'DRIVER=' + params['Driver'] + ';' \
         'SERVER=' + params['Server'] + ';' \

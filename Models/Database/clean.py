@@ -109,6 +109,12 @@ def renamedf1(df):
     #converting million to billions
     df.iloc[ : , 5: ].dropna(how='all') 
     return df
+
+def getColNa(df):
+    for col in df.columns:
+    	n_miss = df[col].isna().sum()
+    	perc = n_miss / df.shape[0] * 100
+    	print('> {0}, Missing: {1:d} ({2:.1f}%)'.format(col, n_miss, perc))
     
     
 def getNaAnalysis(df):
