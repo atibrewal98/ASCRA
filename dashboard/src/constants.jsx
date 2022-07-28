@@ -1,4 +1,3 @@
-export const countryList = ["Australia", "United States of America", "India", "China", "Ukraine", "Russia", "Austria", "Japan"]
 
 export const countrySummary = {
     "Name": "India",
@@ -7,34 +6,6 @@ export const countrySummary = {
     "Fitch Rating": 9.67,
     "Our Rating": 9.50
 }
-
-export const rowData = [
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-    {name: "India", "code": 1111, "population": 1010101, "size": 1010220, "density": 21},
-]
 
 export const columns = [
     {id: 'year', label: 'Year', minWidth: 150},
