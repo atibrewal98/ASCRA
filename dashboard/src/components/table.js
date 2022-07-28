@@ -38,6 +38,7 @@ export const  DataTable = (props) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
   const rows = props.rowData
+  const isTableLoading = props.isLoading
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -50,8 +51,10 @@ export const  DataTable = (props) => {
 
   return (
     <div>
-      {rows === [] ? (
-        <CircularProgress />
+      {isTableLoading ? (
+        <div style={{textAlign: "center"}}>
+          <CircularProgress />
+        </div>
       ):
       (
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>

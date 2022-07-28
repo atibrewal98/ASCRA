@@ -24,6 +24,7 @@ export const Dashboard = () => {
     const [selectedCountry, setSelectedCountry] = React.useState("")
     const [countryList, setCountryList] = React.useState([])
     const [specificCountryData, setSpecificCountryData] = React.useState([])
+    const [isLoading, setIsLoading] = React.useState(false)
 
     React.useEffect(()=> {
         getAllCountries().then(response => {
@@ -33,9 +34,11 @@ export const Dashboard = () => {
 
     React.useEffect(() => {
         if (selectedCountry !== "" && countryList !== []){
+            setIsLoading(true)
             const countryId = countryList.find(x => x.country_name === selectedCountry)["id"]
             getCountryData(countryId).then(response=> {
                 setSpecificCountryData(response)
+                setIsLoading(false)
             })
         }
     }, [selectedCountry])
@@ -76,7 +79,7 @@ export const Dashboard = () => {
                         })
                     } 
                         <br className={"padding"} />
-                        <DataTable rowData={specificCountryData}/> 
+                        <DataTable rowData={specificCountryData} isLoading = {isLoading}/> 
                     </div>
                 )}
                 <SearchBox open={open} onClose={()=> setOpen(false)} setSelectedCountry={setSelectedCountry} countryList={countryList.map(value => value.country_name)}/>
