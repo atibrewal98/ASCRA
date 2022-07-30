@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, Brush, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export const LineGraph = (props) => {
     return (
       <ResponsiveContainer width="100%" height={400}>
         <LineChart
-          width={500}
+          width={550}
           height={300}
           data={props.data}
           margin={{
@@ -23,6 +23,7 @@ export const LineGraph = (props) => {
           { value: props.item1Name, type: "line", id: props.item1, color: "#8884d8" },
           { value: props.item2Name, type: "line", id: props.item2, color: "#82ca9d" }
         ]}/>
+        <Brush dataKey={props.xAxisKey} height={30} stroke="#ffc658" />
           <Line type="monotone" dataKey={props.item1} stroke="#8884d8" />
           <Line type="monotone" dataKey={props.item2} stroke="#82ca9d" />
         </LineChart>
