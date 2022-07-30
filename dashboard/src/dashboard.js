@@ -14,6 +14,7 @@ import { getAllCountries, getCountryData } from './api/api';
 import { LineGraph } from './components/lineGraph';
 import { BarGraph } from './components/barChart';
 import CircularProgress from '@mui/material/CircularProgress';
+import { BarLineGraph } from './components/barLineChart';
 
 const darkTheme = createTheme({
     palette: {
@@ -94,8 +95,8 @@ export const Dashboard = () => {
                                 <br />
                                 <div style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
                                     <div style={{display: "flex", justifyContent: "center", flexDirection: "row"}}>
-                                        <LineGraph data = {specificCountryData} xAxisKey={"year"} item1={"inflation"} item2={"gdp_growth_rate"} item1Name={"Inflation"} item2Name={"GDP Growth Rate"}/> 
                                         <LineGraph data = {specificCountryData} xAxisKey={"year"} item1={"gov_spend"} item2={"gov_debt"} item1Name={"Govt. Spend"} item2Name={"Govt. Debt"}/> 
+                                        <BarLineGraph data = {specificCountryData} xAxisKey={"year"} item1={"inflation"} item2={"gdp_growth_rate"} item1Name={"Inflation"} item2Name={"GDP Growth Rate"} />
                                         <LineGraph data = {specificCountryData} xAxisKey={"year"} item1={"imports"} item2={"exports"} item1Name={"Imports"} item2Name={"Exports"}/> 
                                     </div>
                                     <br />

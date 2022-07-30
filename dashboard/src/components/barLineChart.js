@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
-import { BarChart, Bar, Brush, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { ComposedChart, Line, Bar, ReferenceLine, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-
-export const BarGraph = (props) => {
+export const BarLineGraph = (props) => {
     return (
       <ResponsiveContainer width="100%" height={400}>
-        <BarChart
+        <ComposedChart
           width={500}
           height={300}
           data={props.data}
@@ -21,13 +20,13 @@ export const BarGraph = (props) => {
           <YAxis />
           <Tooltip />
           <Legend payload={[
-          { value: props.item1Name, type: "bar", id: props.item1, color: "#8884d8" },
+          { value: props.item1Name, type: "line", id: props.item1, color: "#8884d8" },
           { value: props.item2Name, type: "bar", id: props.item2, color: "#82ca9d" }
         ]}/>
-        <Brush dataKey={props.xAxisKey} height={30} stroke="#75E6DA" />
-          <Bar dataKey={props.item1} fill="#8884d8" />
-          <Bar dataKey={props.item2} fill="#82ca9d" />
-        </BarChart>
+            <ReferenceLine y={0} stroke="#000" />
+            <Bar dataKey={props.item2} fill="#82ca9d" />
+            <Line type="monotone" dataKey={props.item1} stroke="#8884d8" />
+        </ComposedChart>
       </ResponsiveContainer>
     );
   }
