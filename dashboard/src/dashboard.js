@@ -11,6 +11,9 @@ import {countrySummary } from "./constants"
 import { SearchBox } from './components/search';
 import { DataTable } from "./components/table"
 import { getAllCountries, getCountryData } from './api/api';
+import { LineGraph } from './components/lineGraph';
+import { BarGraph } from './components/barChart';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const darkTheme = createTheme({
     palette: {
@@ -71,17 +74,41 @@ export const Dashboard = () => {
                     <h3>Please search for a country to get analysis</h3>
                 ) : (
                     <div>
-                        {
-                        Object.keys(countryDetails).map((prop, i) => {
-                            return (
-                                <h2 key={i} style={{textAlign: "center"}}>{prop} : {countrySummary[prop]}</h2>
-                            )
-                        })
-                    } 
-                        <br className={"padding"} />
-                        <DataTable rowData={specificCountryData} isLoading = {isLoading}/> 
+                        {isLoading ? 
+                        (
+                            <div style={{textAlign: "center"}}>
+                                <CircularProgress />
+                            </div>
+                        ):
+                        (  
+                            <div>  
+                                {
+                                    Object.keys(countryDetails).map((prop, i) => {
+                                        return (
+                                            <h2 key={i} style={{textAlign: "center"}}>{prop} : {countrySummary[prop]}</h2>
+                                        )
+                                    })
+                                } 
+                                <br className={"padding"} />
+                                <DataTable rowData={specificCountryData}/> 
+                                <br />
+                                <div style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
+                                    <div style={{display: "flex", justifyContent: "center", flexDirection: "row"}}>
+                                        <LineGraph data = {specificCountryData} xAxisKey={"year"} item1={"inflation"} item2={"gdp_growth_rate"} item1Name={"Inflation"} item2Name={"GDP Growth Rate"}/> 
+                                        <LineGraph data = {specificCountryData} xAxisKey={"year"} item1={"gov_spend"} item2={"gov_debt"} item1Name={"Govt. Spend"} item2Name={"Govt. Debt"}/> 
+                                        <LineGraph data = {specificCountryData} xAxisKey={"year"} item1={"imports"} item2={"exports"} item1Name={"Imports"} item2Name={"Exports"}/> 
+                                    </div>
+                                    <br />
+                                    <div style={{display: "flex", justifyContent: "center", flexDirection: "row"}}>
+                                        <BarGraph data={specificCountryData} xAxisKey={"year"} item1={"renewable_pg"} item2={"fossil_pg"} item1Name={"Renewable Power Generaton"} item2Name={"Fossil Power Generation"}/>
+                                        <BarGraph data={specificCountryData} xAxisKey={"year"} item1={"economic_gi"} item2={"political_gi"} item1Name={"Economic Global Index"} item2Name={"Political Global Index"}/>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                )}
+                    )
+                }
                 <SearchBox open={open} onClose={()=> setOpen(false)} setSelectedCountry={setSelectedCountry} countryList={countryList.map(value => value.country_name)}/>
             </div>
         </ThemeProvider>

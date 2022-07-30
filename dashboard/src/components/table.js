@@ -7,7 +7,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
-import CircularProgress from '@mui/material/CircularProgress';
 import TableRow from '@mui/material/TableRow';
 import { tableCellClasses } from '@mui/material/TableCell';
 import {rowData} from '../constants'
@@ -38,7 +37,6 @@ export const  DataTable = (props) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
   const rows = props.rowData
-  const isTableLoading = props.isLoading
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -50,13 +48,6 @@ export const  DataTable = (props) => {
   };
 
   return (
-    <div>
-      {isTableLoading ? (
-        <div style={{textAlign: "center"}}>
-          <CircularProgress />
-        </div>
-      ):
-      (
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
@@ -105,8 +96,5 @@ export const  DataTable = (props) => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
-      )
-      }
-      </div>
-  );
+  )
 }

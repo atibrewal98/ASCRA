@@ -27,17 +27,18 @@ export const SearchBox = (props) => {
 
     return (
         <Backdrop
-            sx={{ backdropFilter: "blur(1px)" }}
+            sx={{ backdropFilter: "blur(2px)" }}
             open={props.open}
         >
             <Dialog
                 PaperProps={{
                     style: {
                         background: "transparent",
-                        minWidth: "90rem",
+                        minWidth: "1000px",
                         outline: "none",
                         height: "20rem",
-                        boxShadow: "0 0 0 0"
+                        boxShadow: "0 0 0 0",
+                        textAlign: "center"
                     }
                 }}
                 style={{
@@ -55,7 +56,7 @@ export const SearchBox = (props) => {
                     <DialogContent>
                         <Input
                             style={{
-                                width: "85rem",
+                                width: "800px",
                                 fontSize: "18px",
                                 height: "4rem",
                                 borderBottom: "2px solid white"
@@ -70,6 +71,7 @@ export const SearchBox = (props) => {
                                 id: "customSearchInput",
                                 type: "text",
                                 placeholder: "Search for Country",
+                                autocomplete: "off",
                                 style: {
                                     fontSize: "36px",
                                     outline: "none",
