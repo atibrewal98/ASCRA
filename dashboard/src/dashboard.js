@@ -83,6 +83,7 @@ export const Dashboard = () => {
                         ):
                         (  
                             <div>  
+                                <h2 style={{textAlign: "center"}}>Name : {selectedCountry}</h2>
                                 {
                                     Object.keys(countryDetails).map((prop, i) => {
                                         return (

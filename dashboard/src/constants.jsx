@@ -1,6 +1,5 @@
 
 export const countrySummary = {
-    "Name": "India",
     "S&P rating": 10.00,
     "Moodys rating": 8.00,
     "Fitch Rating": 9.67,
