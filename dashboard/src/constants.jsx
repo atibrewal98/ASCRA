@@ -1,9 +1,32 @@
 
-export const countrySummary = {
-    "S&P rating": 10.00,
-    "Moodys rating": 8.00,
-    "Fitch Rating": 9.67,
-    "Our Rating": 9.50
+export const countrySummary = [{
+    "Name": "Sri Lanka",
+    "S&P Rating": "CC",
+    "Moodys Rating": "Caa2",
+    "Fitch Rating": "CC",
+    "Our Rating": "C"
+},
+{
+    "Name": "United Kingdom",
+    "S&P Rating": "AA",
+    "Moodys Rating": "Aa3",
+    "Fitch Rating": "AA-",
+    "Our Rating": "AA"
+},
+{
+    "Name": "Azerbaijan",
+    "S&P Rating": "BB+",
+    "Moodys Rating": "Ba2",
+    "Fitch Rating": "BB+",
+    "Our Rating": "BBB"
+}]
+
+export const defaultSummary = {
+    "Name": "Default",
+    "S&P Rating": "BB+",
+    "Moodys Rating": "Ba2",
+    "Fitch Rating": "BB+",
+    "Our Rating": "BBB"
 }
 
 export const columns = [

@@ -7,7 +7,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import SearchIcon from "@mui/icons-material/Search";
-import {countrySummary } from "./constants"
+import {countrySummary, defaultSummary } from "./constants"
 import { SearchBox } from './components/search';
 import { DataTable } from "./components/table"
 import { getAllCountries, getCountryData } from './api/api';
@@ -23,7 +23,7 @@ const darkTheme = createTheme({
 });
 
 export const Dashboard = () => {
-    const [countryDetails, setCountryDetails] = React.useState(countrySummary)
+    const [countryDetails, setCountryDetails] = React.useState(null)
     const [open, setOpen] = React.useState(true)
     const [selectedCountry, setSelectedCountry] = React.useState("")
     const [countryList, setCountryList] = React.useState([])
@@ -42,10 +42,31 @@ export const Dashboard = () => {
             const countryId = countryList.find(x => x.country_name === selectedCountry)["id"]
             getCountryData(countryId).then(response=> {
                 setSpecificCountryData(response)
+                setCountryDetails(getCountryDetails(selectedCountry))
                 setIsLoading(false)
             })
         }
     }, [selectedCountry])
+
+
+    function getCountryDetails (country){
+        let details = {}
+        countrySummary.forEach(summary => {
+            if(summary.Name === country){
+                details = summary
+            }
+        })
+        if (!isEmpty(details)){
+            return details
+        }
+        else{
+            return defaultSummary
+        }
+    }
+
+    function isEmpty(obj) {
+        return Object.keys(obj).length === 0;
+    }
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -85,10 +106,12 @@ export const Dashboard = () => {
                             <div>  
                                 <h2 style={{textAlign: "center"}}>Name : {selectedCountry}</h2>
                                 {
-                                    Object.keys(countryDetails).map((prop, i) => {
-                                        return (
-                                            <h2 key={i} style={{textAlign: "center"}}>{prop} : {countrySummary[prop]}</h2>
-                                        )
+                                    countryDetails && Object.keys(countryDetails).map((prop, i) => {
+                                        if(prop !== "Name"){
+                                            return (
+                                                <h2 key={i} style={{textAlign: "center"}}>{prop} : {countryDetails[prop]}</h2>
+                                            )
+                                        }
                                     })
                                 } 
                                 <br className={"padding"} />

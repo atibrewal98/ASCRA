@@ -2,7 +2,6 @@ import { Dialog, DialogContent, DialogTitle, Input, Backdrop } from "@mui/materi
 import React from "react";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import { countryList } from "../constants"
 
 export const SearchBox = (props) => {
     const [searchTerm, setSearchTerm] = React.useState("");
@@ -71,7 +70,7 @@ export const SearchBox = (props) => {
                                 id: "customSearchInput",
                                 type: "text",
                                 placeholder: "Search for Country",
-                                autocomplete: "off",
+                                autoComplete: "off",
                                 style: {
                                     fontSize: "36px",
                                     outline: "none",
@@ -85,7 +84,7 @@ export const SearchBox = (props) => {
                         {searchTerm !== "" &&
                             dynamicSearch().map((country, key) => {
                                 return (
-                                    <div style={{display: "flex", flexDirection: "column", marginTop: "10px"}}>
+                                    <div style={{display: "flex", flexDirection: "column", marginTop: "10px"}} key={key}>
                                         <span onClick={()=>handleClick(country)} style={{fontSize: "28px", color: "white", marginTop: "5px", textDecoration: "none", cursor: "pointer"}}>{country}</span>
                                     </div>
 
